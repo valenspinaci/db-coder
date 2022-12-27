@@ -1,5 +1,5 @@
-const {options} = require ("../config/databaseConfig");
-const knex = require("knex");
+import { options } from "../config/databaseConfig.js";
+import knex from "knex";
 
 const databaseMariadb = knex(options.mariaDB);
 const databaseSqlite = knex(options.sqliteDB);
@@ -18,19 +18,6 @@ const createTables = async()=>{
             table.string("thumbnail", 200).nullable(false)
         });
         console.log("Tabla de productos creada")
-
-        let chatTable = await databaseSqlite.schema.hasTable("chat");
-        if(chatTable){
-            await databaseSqlite.schema.dropTable("chat")
-        }
-        await databaseSqlite.schema.createTable("chat", table=>{
-            table.increments("id");
-            table.string("author", 30).nullable(false);
-            table.string("text", 200).nullable(false);
-            table.string("date", 20).nullable(false)
-        });
-        console.log("Tabla de chat creada")
-
     } catch (error) {
         console.log(error)
     }
